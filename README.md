@@ -1,1 +1,1 @@
-# rust-realtime-log-analytics
+Rust-based data-intensive application that processes and analyzes high-volume real-time log data. The system focuses on efficient data ingestion, processing, aggregation, and real-time analytics using Rust.
