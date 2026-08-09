@@ -2,14 +2,14 @@ Rust-based data-intensive application that processes and analyzes high-volume re
 
 Terminal 1
 **git clone <REPOSITORY-URL>
-cd rust-realtime-log-analytics
-cd backend
-sqlx migrate run
-cargo run**
+-> cd rust-realtime-log-analytics
+-> cd backend
+-> sqlx migrate run
+-> cargo run**
 
 
 Terminal 2
 
-**cd rust-realtime-log-analytics
-cd log-generator
-cargo run**
+-> **cd rust-realtime-log-analytics
+-> cd log-generator
+-> cargo run**
