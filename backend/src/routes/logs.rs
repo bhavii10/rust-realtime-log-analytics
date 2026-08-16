@@ -1,5 +1,5 @@
 use axum::{
-    routing::post,
+    routing::{get, post},
     Router,
 };
 
@@ -13,5 +13,9 @@ pub fn routes() -> Router<PgPool> {
             "/api/logs",
             post(log_handler::create_log)
                 .get(log_handler::get_logs),
+        )
+        .route(
+            "/api/logs/search",
+            get(log_handler::search_logs),
         )
 }

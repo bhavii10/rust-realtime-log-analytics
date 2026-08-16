@@ -43,6 +43,7 @@ async fn main() {
     println!("\nAvailable endpoints:");
     println!("   GET  /api/services");
     println!("   GET  /api/logs");
+    println!("   GET  /api/logs/search?level=ERROR&service=payment-service&status=500&min_latency=2000&page=1&limit=50");
     println!("   POST /api/logs");
 
     axum::serve(listener, app)

@@ -5,10 +5,10 @@ use axum::{
 };
 
 use serde::Serialize;
-use sqlx::PgPool;
+use sqlx::{FromRow, PgPool};
 use uuid::Uuid;
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, FromRow)]
 pub struct ServiceResponse {
     pub id: Uuid,
     pub name: String,
@@ -18,8 +18,7 @@ pub struct ServiceResponse {
 pub async fn get_services(
     State(pool): State<PgPool>,
 ) -> Result<Json<Vec<ServiceResponse>>, StatusCode> {
-    let services = sqlx::query_as!(
-        ServiceResponse,
+    let services = sqlx::query_as::<_, ServiceResponse>(
         r#"
         SELECT
             id,
