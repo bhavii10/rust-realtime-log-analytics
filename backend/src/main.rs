@@ -28,6 +28,7 @@ async fn main() {
     let app = Router::new()
         .merge(routes::logs::routes())
         .merge(routes::services::routes())
+        .merge(routes::analytics::routes())
         .with_state(pool);
 
     // Start server
@@ -44,6 +45,8 @@ async fn main() {
     println!("   GET  /api/services");
     println!("   GET  /api/logs");
     println!("   GET  /api/logs/search?level=ERROR&service=payment-service&status=500&min_latency=2000&page=1&limit=50");
+    println!("   GET  /api/analytics");
+    println!("   GET  /api/analytics?service=payment-service&minutes=60");
     println!("   POST /api/logs");
 
     axum::serve(listener, app)
