@@ -92,3 +92,58 @@ pub struct RealtimeMetrics {
     pub requests_per_second: f64,
     pub slow_request_count: i64,
 }
+
+// ======================================================
+// REAL-TIME METRICS QUERY PARAMS (Phase 7)
+// ======================================================
+
+#[derive(Debug, Deserialize)]
+pub struct RealtimeQuery {
+    /// Number of recent snapshots to return (default: 30)
+    pub limit: Option<i64>,
+}
+
+// ======================================================
+// ALERT MODEL (Phase 8)
+// ======================================================
+
+#[derive(Debug, Serialize, Clone, sqlx::FromRow)]
+pub struct Alert {
+    pub id: Uuid,
+    pub alert_type: String,
+    pub service_id: Option<Uuid>,
+    pub message: String,
+    pub severity: String,
+    pub threshold_value: Option<f64>,
+    pub actual_value: Option<f64>,
+    pub created_at: String,
+    pub resolved_at: Option<String>,
+}
+
+// ======================================================
+// ALERT QUERY PARAMS (Phase 8)
+// ======================================================
+
+#[derive(Debug, Deserialize)]
+pub struct AlertQuery {
+    /// Filter by severity: LOW, MEDIUM, HIGH, CRITICAL
+    pub severity: Option<String>,
+    /// Filter by alert type: HIGH_ERROR_RATE, HIGH_LATENCY, TRAFFIC_SPIKE
+    pub alert_type: Option<String>,
+    /// Number of alerts to return (default: 50)
+    pub limit: Option<i64>,
+}
+
+// ======================================================
+// ALERT SUMMARY (Phase 8)
+// ======================================================
+
+#[derive(Debug, Serialize)]
+pub struct AlertSummary {
+    pub total_alerts: i64,
+    pub critical: i64,
+    pub high: i64,
+    pub medium: i64,
+    pub low: i64,
+    pub recent_alerts: Vec<Alert>,
+}
