@@ -71,36 +71,8 @@ pub struct FullAnalyticsResponse {
 
 #[derive(Debug, Deserialize)]
 pub struct AnalyticsQuery {
-    /// Filter by service name
     pub service: Option<String>,
-    /// Time window in minutes (default: all time)
     pub minutes: Option<i64>,
-}
-
-// ======================================================
-// REAL-TIME METRICS SNAPSHOT (Phase 7)
-// ======================================================
-
-#[derive(Debug, Serialize, Clone, sqlx::FromRow)]
-pub struct RealtimeMetrics {
-    pub id: Uuid,
-    pub recorded_at: String,
-    pub request_count: i64,
-    pub error_count: i64,
-    pub error_rate: f64,
-    pub average_latency_ms: f64,
-    pub requests_per_second: f64,
-    pub slow_request_count: i64,
-}
-
-// ======================================================
-// REAL-TIME METRICS QUERY PARAMS (Phase 7)
-// ======================================================
-
-#[derive(Debug, Deserialize)]
-pub struct RealtimeQuery {
-    /// Number of recent snapshots to return (default: 30)
-    pub limit: Option<i64>,
 }
 
 // ======================================================
@@ -126,11 +98,8 @@ pub struct Alert {
 
 #[derive(Debug, Deserialize)]
 pub struct AlertQuery {
-    /// Filter by severity: LOW, MEDIUM, HIGH, CRITICAL
     pub severity: Option<String>,
-    /// Filter by alert type: HIGH_ERROR_RATE, HIGH_LATENCY, TRAFFIC_SPIKE
     pub alert_type: Option<String>,
-    /// Number of alerts to return (default: 50)
     pub limit: Option<i64>,
 }
 
