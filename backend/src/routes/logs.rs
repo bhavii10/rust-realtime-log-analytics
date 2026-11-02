@@ -15,6 +15,10 @@ pub fn routes() -> Router<PgPool> {
                 .get(log_handler::get_logs),
         )
         .route(
+            "/api/logs/batch",
+            post(log_handler::create_logs_batch),
+        )
+        .route(
             "/api/logs/search",
             get(log_handler::search_logs),
         )

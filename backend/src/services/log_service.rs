@@ -9,7 +9,7 @@ use crate::models::log::{
 };
 
 // ======================================================
-// CREATE LOG
+// CREATE LOG (single)
 // ======================================================
 
 pub async fn create_log(
@@ -60,6 +60,47 @@ pub async fn create_log(
     .await?;
 
     Ok(id)
+}
+
+// ======================================================
+// CREATE LOGS BATCH (Phase 11 — Optimization)
+//
+// Accepts up to 500 logs and inserts them in a single
+// multi-row INSERT statement, dramatically reducing
+// DB round-trips under high load.
+// ======================================================
+
+pub async fn create_logs_batch(
+    pool: &PgPool,
+    requests: Vec<CreateLogRequest>,
+) -> Result<u64, sqlx::Error> {
+    if requests.is_empty() {
+        return Ok(0);
+    }
+
+    // Cap at 500 per batch to avoid oversized queries
+    let count = requests.len().min(500);
+
+    let mut qb: QueryBuilder<Postgres> = QueryBuilder::new(
+        "INSERT INTO logs (id, timestamp, level, service_id, method, endpoint, status_code, response_time_ms, ip_address, message) "
+    );
+
+    qb.push_values(requests.iter().take(count), |mut b, req| {
+        b.push_bind(Uuid::new_v4())
+         .push_bind(&req.timestamp)
+         .push_bind(&req.level)
+         .push_bind(req.service_id)
+         .push_bind(&req.method)
+         .push_bind(&req.endpoint)
+         .push_bind(req.status_code)
+         .push_bind(req.response_time_ms)
+         .push_bind(&req.ip_address)
+         .push_bind(&req.message);
+    });
+
+    let result = qb.build().execute(pool).await?;
+
+    Ok(result.rows_affected())
 }
 
 // ======================================================
