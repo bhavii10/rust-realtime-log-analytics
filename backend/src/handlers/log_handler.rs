@@ -31,6 +31,23 @@ pub async fn create_log(
 }
 
 // ======================================================
+// POST /api/logs/batch (Phase 11 — Optimization)
+// ======================================================
+
+pub async fn create_logs_batch(
+    State(pool): State<PgPool>,
+    Json(requests): Json<Vec<CreateLogRequest>>,
+) -> Result<StatusCode, StatusCode> {
+    log_service::create_logs_batch(&pool, requests)
+        .await
+        .map(|_| StatusCode::CREATED)
+        .map_err(|e| {
+            eprintln!("❌ Batch insert error: {e}");
+            StatusCode::INTERNAL_SERVER_ERROR
+        })
+}
+
+// ======================================================
 // GET /api/logs (basic - last 100)
 // ======================================================
 

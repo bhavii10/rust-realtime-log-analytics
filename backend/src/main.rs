@@ -71,6 +71,7 @@ async fn main() {
     println!("   GET  /api/logs");
     println!("   GET  /api/logs/search");
     println!("   POST /api/logs");
+    println!("   POST /api/logs/batch        (Phase 11 — batch insert)");
     println!("   GET  /api/analytics");
     println!("   GET  /api/alerts");
 
