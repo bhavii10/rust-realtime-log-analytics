@@ -5,6 +5,7 @@ import {
   BarChart3,
   AlertTriangle,
   Activity,
+  Gauge,
 } from 'lucide-react'
 import { usePolling } from '@/hooks/usePolling'
 import { fetchHealth } from '@/lib/api'
@@ -15,6 +16,7 @@ const navItems = [
   { to: '/logs', icon: ScrollText, label: 'Logs' },
   { to: '/analytics', icon: BarChart3, label: 'Analytics' },
   { to: '/alerts', icon: AlertTriangle, label: 'Alerts' },
+  { to: '/benchmark', icon: Gauge, label: 'Benchmark' },
 ]
 
 export default function Layout() {

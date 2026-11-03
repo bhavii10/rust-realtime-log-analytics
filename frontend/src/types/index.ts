@@ -96,3 +96,23 @@ export interface AlertSummary {
   low: number
   recent_alerts: Alert[]
 }
+
+export interface BenchmarkResult {
+  target_rate: number
+  actual_throughput: number
+  duration_s: number
+  total_logs: number
+  successful: number
+  failed: number
+  failure_rate_pct: number
+  latency_avg_ms: number
+  latency_p95_ms: number
+  latency_p99_ms: number
+  latency_max_ms: number
+  batch_size: number
+  concurrency: number
+}
+
+export interface BenchmarkResponse {
+  results: BenchmarkResult[]
+}

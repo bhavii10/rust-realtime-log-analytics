@@ -5,9 +5,10 @@ import type {
   LogFilter,
   FullAnalyticsResponse,
   AlertSummary,
+  BenchmarkResponse,
 } from '@/types'
 
-const API_BASE = 'http://localhost:8080'
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080'
 
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url)
@@ -60,4 +61,8 @@ export async function fetchAlerts(
   if (params?.limit) qp.set('limit', String(params.limit))
   const qs = qp.toString()
   return fetchJson(`${API_BASE}/api/alerts${qs ? `?${qs}` : ''}`)
+}
+
+export async function fetchBenchmark(): Promise<BenchmarkResponse> {
+  return fetchJson(`${API_BASE}/api/benchmark`)
 }

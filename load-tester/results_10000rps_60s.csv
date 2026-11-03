@@ -1,0 +1,2 @@
+target_rate,actual_throughput,duration_s,total_logs,http_requests,successful,failed,failure_rate_pct,latency_min_ms,latency_avg_ms,latency_p95_ms,latency_p99_ms,latency_max_ms,batch_size,concurrency
+10000,8462.8,70.90,600000,600000,600000,0,0.00,3.32,35.43,37.07,39.58,58.34,1,300

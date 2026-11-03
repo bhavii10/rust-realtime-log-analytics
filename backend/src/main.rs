@@ -27,6 +27,13 @@ async fn main() {
 
     println!("✅ PostgreSQL connected!");
 
+    // Run migrations automatically on startup
+    sqlx::migrate!("./migrations")
+        .run(&pool)
+        .await
+        .expect("❌ Failed to run migrations");
+    println!("✅ Migrations applied!");
+
     // CORS middleware for React frontend
     let cors = CorsLayer::new()
         .allow_origin(Any)
@@ -52,15 +59,15 @@ async fn main() {
         .merge(routes::logs::routes())
         .merge(routes::services::routes())
         .merge(routes::analytics::routes())
+        .merge(routes::benchmark::routes())
         .layer(cors)
         .with_state(pool);
 
     // Start server
-    let listener = tokio::net::TcpListener::bind(
-        "127.0.0.1:8080",
-    )
-    .await
-    .expect("❌ Failed to bind server");
+    let port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
+    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{port}"))
+        .await
+        .expect("❌ Failed to bind server");
 
     println!("🚀 Server running at:");
     println!("   http://127.0.0.1:8080");
@@ -74,6 +81,7 @@ async fn main() {
     println!("   POST /api/logs/batch        (Phase 11 — batch insert)");
     println!("   GET  /api/analytics");
     println!("   GET  /api/alerts");
+    println!("   GET  /api/benchmark");
 
     axum::serve(listener, app)
         .await

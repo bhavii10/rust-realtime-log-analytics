@@ -4,6 +4,7 @@ import Dashboard from '@/pages/Dashboard'
 import Logs from '@/pages/Logs'
 import Analytics from '@/pages/Analytics'
 import Alerts from '@/pages/Alerts'
+import Benchmark from '@/pages/Benchmark'
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route path="/logs" element={<Logs />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/alerts" element={<Alerts />} />
+          <Route path="/benchmark" element={<Benchmark />} />
         </Route>
       </Routes>
     </BrowserRouter>
